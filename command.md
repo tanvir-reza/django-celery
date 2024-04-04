@@ -3,6 +3,9 @@ chmod +x ./endpoint.sh
 docker-composer up -d --build
 docker exec -it django /bin/sh
 
+<!-- Remove all docker -->
+docker stop $(docker ps -aq) && docker rm $(docker ps -aq) && docker rmi $(docker images -aq)
+
 <!-- Celery Group -->
 
 from celery import group
@@ -15,3 +18,6 @@ from celery import chain
 from newapp.tasks import tp1,tp2,tp3,tp4
 task_chain = chain(tp1.s(),tp2.s(),tp3.s(),tp4.s())
 task_chain.apply_async()
+
+
+
